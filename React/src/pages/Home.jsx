@@ -1,11 +1,29 @@
-import React from "react";
+import React, { useState, useEffect } from 'react'
 
-const Home = () => {
+export default function HeroesData() {
+  const [heroes, fetchHeroes] = useState([])
+
+  const getData = () => {
+    fetch('http://localhost:8000/heroes/')
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+        fetchHeroes(res)
+      })
+  }
+
+  useEffect(() => {
+    getData()
+  }, [])
+
   return (
     <div>
-      Home
+      <h2>Heroes List</h2>
+      <ul>
+        {heroes.map((item, i) => {
+          return <li key={i}>{item.name}</li>
+        })}
+      </ul>
     </div>
-  );
+  )
 }
-
-export default Home;
